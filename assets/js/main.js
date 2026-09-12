@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initCopyIP();
   initServerPing();
+  initGallery();
   initParticles();
 });
 
@@ -134,30 +135,41 @@ function showToast(message) {
   }, 3500);
 }
 
-/* Real-Time Server Ping via mcsrvstat.us API */
+/* Real-Time Server Status via Minecraft-MP API */
 function initServerPing() {
-  const serverIp = 'java.nss.biz.id';
+  const minecraftMpApi = 'https://minecraft-mp.com/api/?object=servers&element=detail&tag=363257';
   const statusBadge = document.getElementById('server-status-badge');
   const playerCountElem = document.getElementById('player-count');
   const versionElem = document.getElementById('server-version');
-  const motdElem = document.getElementById('server-motd');
 
   async function checkStatus() {
     try {
-      const response = await fetch(`https://api.mcsrvstat.us/2/${serverIp}`);
+      const response = await fetch(minecraftMpApi, { cache: 'no-store' });
       if (!response.ok) throw new Error('Network error');
       const data = await response.json();
+      const server = data.server || data;
+      const onlinePlayers = Number(server.players ?? server.online ?? 0);
+      const maxPlayers = Number(server.maxplayers ?? server.maxPlayers ?? 0);
+      const serverIp = server.ip || server.address;
 
-      if (data.online) {
+      if (data.status !== false && (server.online !== false || onlinePlayers > 0)) {
         if (statusBadge) {
           statusBadge.innerHTML = '<span class="badge-dot online"></span> ONLINE';
           statusBadge.style.color = '#34d399';
         }
         if (playerCountElem) {
-          playerCountElem.textContent = `${data.players?.online || 0} / ${data.players?.max || 728} Pemain`;
+          playerCountElem.textContent = `${onlinePlayers} / ${maxPlayers || 728} Pemain`;
         }
-        if (versionElem && data.version) {
-          versionElem.textContent = data.version;
+        if (versionElem && server.version) {
+          versionElem.textContent = server.version;
+        }
+        if (serverIp) {
+          document.querySelectorAll('[data-copy-ip]').forEach((element) => {
+            element.setAttribute('data-copy-ip', serverIp);
+          });
+          document.querySelectorAll('.ip-value, .nav-ip-text').forEach((element) => {
+            element.textContent = serverIp;
+          });
         }
       } else {
         // Fallback gracefully
@@ -184,6 +196,115 @@ function initServerPing() {
   checkStatus();
   // Auto refresh status every 60 seconds
   setInterval(checkStatus, 60000);
+}
+
+/* Server Gallery with lazy-loaded local album images */
+function initGallery() {
+  const galleryGrid = document.getElementById('gallery-grid');
+  if (!galleryGrid) return;
+
+  const albumImages = [
+    ['1.png', 'season-1', 'Arsip pembuka'],
+    ['2026-02-25_12.49.27.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-25_12.51.50.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_00.10.03.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_00.10.22.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_00.10.33.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_00.11.17.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_00.12.25.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_00.12.29.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_00.12.55.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_00.14.48.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_00.15.09.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_02.25.43.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_15.57.35.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_20.46.03.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_20.48.23.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_22.10.00.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_22.10.07.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-26_22.16.37.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-27_20.41.58.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-27_20.42.07.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-28_20.21.33.png', 'season-1', 'Momen Season 1'],
+    ['2026-02-28_20.58.09.png', 'season-1', 'Momen Season 1'],
+    ['2026-03-01_17.42.51.png', 'season-1', 'Momen Season 1'],
+    ['2026-03-02_22.40.34.png', 'season-1', 'Momen Season 1'],
+    ['2026-03-07_00.33.01.png', 'season-1', 'Momen Season 1'],
+    ['2026-03-07_00.53.36.png', 'season-1', 'Momen Season 1'],
+    ['2026-03-07_23.12.05.png', 'season-1', 'Momen Season 1'],
+    ['2026-03-10_22.08.16.png', 'season-1', 'Momen Season 1'],
+    ['2026-03-12_21.35.23.png', 'season-1', 'Momen Season 1'],
+    ['2026-03-12_21.57.49.png', 'season-1', 'Momen Season 1'],
+    ['2026-09-08_20.19.55.png', 'latest', 'Momen terbaru'],
+    ['2026-09-08_20.21.01.png', 'latest', 'Momen terbaru'],
+    ['2026-09-09_00.19.36.png', 'latest', 'Momen terbaru'],
+    ['co11ntent.png', 'season-1', 'Arsip komunitas'],
+    ['con11tent.png', 'season-1', 'Arsip komunitas'],
+    ['conte1nt.png', 'season-1', 'Arsip komunitas'],
+    ['content.png', 'season-1', 'Arsip komunitas'],
+    ['i122mage.png', 'season-1', 'Arsip komunitas'],
+    ['i12mage.png', 'season-1', 'Arsip komunitas'],
+    ['i1mage.png', 'season-1', 'Arsip komunitas'],
+    ['im111age.png', 'season-1', 'Arsip komunitas'],
+    ['im11age.png', 'season-1', 'Arsip komunitas'],
+    ['im1age.png', 'season-1', 'Arsip komunitas'],
+    ['ima11ge.png', 'season-1', 'Arsip komunitas'],
+    ['imag1e.png', 'season-1', 'Arsip komunitas'],
+    ['imag23e.png', 'season-1', 'Arsip komunitas'],
+    ['imag243e.png', 'season-1', 'Arsip komunitas'],
+    ['image.png', 'season-1', 'Arsip komunitas']
+  ];
+
+  const initialGalleryLimit = 8;
+  let showAllImages = false;
+  const showAllButton = document.getElementById('gallery-show-all');
+
+  const renderGallery = () => {
+    const visibleImages = showAllImages ? albumImages : albumImages.slice(0, initialGalleryLimit);
+    galleryGrid.replaceChildren();
+
+    if (!visibleImages.length) {
+      galleryGrid.innerHTML = '<p class="gallery-empty">Belum ada gambar pada album ini.</p>';
+      return;
+    }
+
+    visibleImages.forEach(([filename]) => {
+      const card = document.createElement('article');
+      card.className = 'gallery-card';
+
+      const imageLink = document.createElement('a');
+      imageLink.className = 'gallery-image-link';
+      imageLink.href = `assets/album/${filename}`;
+      imageLink.target = '_blank';
+      imageLink.rel = 'noopener';
+      imageLink.setAttribute('aria-label', 'Buka gambar arsip komunitas');
+
+      const image = document.createElement('img');
+      image.src = imageLink.href;
+      image.alt = 'Arsip komunitas NES5 NETWORK';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.addEventListener('load', () => image.classList.add('loaded'), { once: true });
+      image.addEventListener('error', () => card.remove(), { once: true });
+
+      const captionElement = document.createElement('div');
+      captionElement.className = 'gallery-caption';
+      captionElement.innerHTML = '<strong>Arsip Komunitas</strong><span>NES5 NETWORK</span>';
+
+      imageLink.appendChild(image);
+      card.append(imageLink, captionElement);
+      galleryGrid.appendChild(card);
+    });
+
+    if (showAllButton) showAllButton.hidden = showAllImages;
+  };
+
+  showAllButton?.addEventListener('click', () => {
+    showAllImages = true;
+    renderGallery();
+  });
+
+  renderGallery();
 }
 
 

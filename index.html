@@ -36,17 +36,15 @@
   <header class="navbar" id="navbar">
     <div class="container nav-container">
       <a href="#beranda" class="logo">
-        <div class="logo-badge">
-          <i class="fa-solid fa-cube"></i>
-        </div>
-        <div class="logo-text">NES5 <span>NETWORK</span></div>
+        <img class="brand-logo" src="assets/logo/logo.png" alt="NES5 Network">
       </a>
 
       <nav class="nav-menu">
         <ul class="nav-links">
           <li class="nav-item"><a href="#beranda" class="nav-link active"><i class="fa-solid fa-house"></i> Beranda</a></li>
-          <li class="nav-item"><a href="#fitur" class="nav-link"><i class="fa-solid fa-sparkles"></i> Fitur</a></li>
+          <li class="nav-item"><a href="#fitur" class="nav-link"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Fitur</a></li>
           <li class="nav-item"><a href="#slimefun" class="nav-link"><i class="fa-solid fa-atom"></i> Slimefun 4</a></li>
+          <li class="nav-item"><a href="#gallery" class="nav-link"><i class="fa-solid fa-images"></i> Gallery</a></li>
           <li class="nav-item"><a href="#panduan" class="nav-link"><i class="fa-solid fa-compass"></i> Cara Main</a></li>
         </ul>
       </nav>
@@ -76,7 +74,7 @@
       <div class="container">
         <div class="hero-pill">
           <span class="pulse-dot"></span>
-          <span>SERVER AKTIF • SURVIVAL SLIMEFUN 4 (1.8 - 1.21)</span>
+          <span>SERVER AKTIF • SURVIVAL SLIMEFUN 4 (1.8 - 26.2)</span>
         </div>
 
         <h1 class="hero-title">
@@ -121,7 +119,7 @@
         <div class="status-bar">
           <div class="status-item">
             <div class="status-icon green">
-              <i class="fa-solid fa-signal"></i>
+              <i class="fa-solid fa-server" aria-hidden="true"></i>
             </div>
             <div class="status-info">
               <h4>Status Server</h4>
@@ -131,7 +129,7 @@
 
           <div class="status-item">
             <div class="status-icon blue">
-              <i class="fa-solid fa-users"></i>
+              <i class="fa-solid fa-user-group" aria-hidden="true"></i>
             </div>
             <div class="status-info">
               <h4>Pemain Online</h4>
@@ -141,7 +139,7 @@
 
           <div class="status-item">
             <div class="status-icon amber">
-              <i class="fa-solid fa-code-branch"></i>
+              <i class="fa-solid fa-cubes-stacked" aria-hidden="true"></i>
             </div>
             <div class="status-info">
               <h4>Dukungan Versi</h4>
@@ -151,7 +149,7 @@
 
           <div class="status-item">
             <div class="status-icon purple">
-              <i class="fa-solid fa-location-dot"></i>
+              <i class="fa-solid fa-earth-asia" aria-hidden="true"></i>
             </div>
             <div class="status-info">
               <h4>Lokasi Host</h4>
@@ -290,6 +288,25 @@
       </div>
     </section>
 
+    <!-- Server Gallery -->
+    <section class="section gallery-section" id="gallery">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Album Kenangan</span>
+          <h2 class="section-title">Gallery NES5 NETWORK</h2>
+          <p class="section-desc">Kumpulan momen perjalanan server dari arsip awal hingga petualangan terbaru.</p>
+        </div>
+
+        <div class="gallery-toolbar">
+          <button class="gallery-filter" id="gallery-show-all" type="button">
+            <i class="fa-solid fa-images" aria-hidden="true"></i> Tampilkan Semua
+          </button>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
     <!-- How to Join Section -->
     <section class="section" id="panduan">
       <div class="container">
@@ -357,8 +374,7 @@
       <div class="footer-grid">
         <div class="footer-about">
           <div class="logo">
-            <div class="logo-badge"><i class="fa-solid fa-cube"></i></div>
-            <div class="logo-text">NES5 <span>NETWORK</span></div>
+            <img class="brand-logo" src="assets/logo/logo.png" alt="NES5 Network">
           </div>
           <p>
             Server Minecraft Survival Slimefun 4 Indonesia terbaik dengan teknologi modern, ekonomi mandiri, proteksi wilayah, dan komunitas yang aktif.
@@ -369,29 +385,19 @@
         </div>
 
         <div class="footer-links">
-          <h4>Navigasi</h4>
-          <ul>
-            <li><a href="#beranda">Beranda</a></li>
-            <li><a href="#fitur">Fitur Server</a></li>
-            <li><a href="#slimefun">Slimefun 4</a></li>
-            <li><a href="#panduan">Panduan Join</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-links">
           <h4>Tautan Luar</h4>
           <ul>
             <li><a href="https://minecraft-mp.com/server-s363257" target="_blank" rel="noopener">Minecraft-MP Page</a></li>
             <li><a href="https://minecraft-mp.com/server/363257/vote/" target="_blank" rel="noopener">Vote Server</a></li>
             <li><a href="https://discord.gg/MX8ZTA9ZzA" target="_blank" rel="noopener">Discord Server</a></li>
-            <li><a href="https://nss.biz.id">Domain nss.biz.id</a></li>
+            <li><a href="#gallery">Gallery Kenangan</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
         <div>&copy; 2026 NES5 NETWORK. Seluruh hak cipta dilindungi.</div>
-        <div>Server IP: <code>java.nss.biz.id</code></div>
+        <div>Dibuat Oleh <code>yusupkakuu</code></div>
       </div>
     </div>
   </footer>

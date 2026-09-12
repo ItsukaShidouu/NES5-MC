@@ -17,7 +17,7 @@ Website resmi server Minecraft **NES5 NETWORK** (`nss.biz.id` / `java.nss.biz.id
    - Antarmuka *dark glassmorphism* yang nyaman dipandang.
 
 3. **Integrasi Server Real-Time**:
-   - Menampilkan status server online dan jumlah pemain saat ini secara otomatis menggunakan API publik `mcsrvstat.us`.
+   - Menampilkan status server, IP, dan jumlah pemain saat ini secara otomatis menggunakan API Minecraft-MP untuk server `363257`.
    - Kotak IP interaktif dengan sekali klik untuk menyalin alamat server.
 
 4. **Detail & Informasi Server Lengkap**:
